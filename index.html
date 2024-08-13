@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scheduled YouTube Video</title>
+</head>
+<body>
+    <div id="player"></div>
+
+    <script>
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '360',
+                width: '640',
+                videoId: 'bkBUq7WQQr0',  // This is your YouTube video ID
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            var now = new Date();
+            var playTime = new Date();
+            playTime.setHours(12, 0, 0); // Set time to 12:00 PM (You can adjust this)
+
+            var timeUntilPlay = playTime - now;
+            if (timeUntilPlay > 0) {
+                setTimeout(function() {
+                    event.target.playVideo();
+                }, timeUntilPlay);
+            } else {
+                event.target.playVideo(); // Play immediately if time has passed
+            }
+        }
+    </script>
+</body>
+</html>
